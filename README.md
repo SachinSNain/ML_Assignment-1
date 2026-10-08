@@ -65,5 +65,5 @@ python3 build_pdf.py
 ## Files
 
 - `BT2024201_pred_var1.csv`, `BT2024201_pred_var2.csv`: final predictions (1000 rows each, `y` column, no index)
-- `BT2024201_Report.pdf` (also `REPORT.pdf`): the submission report
+- `BT2024201_Report.pdf`: the submission report
 - `BT2024201_train_*.csv`, `BT2024201_test_*.csv`: the provided data
