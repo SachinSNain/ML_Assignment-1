@@ -7,8 +7,10 @@ from sklearn.linear_model import LinearRegression, Lasso, RidgeCV
 from sklearn.model_selection import cross_val_predict, KFold
 
 ROLL = "BT2024201"
-DATA_DIR = "." if os.path.exists(f"{ROLL}_train_var1.csv") else f"./{ROLL}"
-FIG_DIR = "figures" if os.path.exists(f"{ROLL}_train_var1.csv") else f"{ROLL}/figures"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE, "data")
+PRED_DIR = os.path.join(DATA_DIR, "predictions")
+FIG_DIR = os.path.join(BASE, "figures")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 plt.style.use("seaborn-v0_8-whitegrid" if "seaborn-v0_8-whitegrid" in plt.style.available else "default")

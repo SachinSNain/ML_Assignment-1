@@ -6,7 +6,9 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score, KFold
 
 ROLL = "BT2024201"
-DATA_DIR = "." if os.path.exists(f"{ROLL}_train_var1.csv") else f"./{ROLL}"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE, "data")
+PRED_DIR = os.path.join(DATA_DIR, "predictions")
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
 def run(problem, features, degree, tag):
@@ -36,7 +38,7 @@ def run(problem, features, degree, tag):
     print(f"Train MSE: {mean_squared_error(y_tr, y_hat):.4f}")
 
     preds = mdl.predict(Xp_te)
-    out = f"{DATA_DIR}/{ROLL}_pred_{problem}_{tag}.csv"
+    out = f"{PRED_DIR}/{ROLL}_pred_{problem}_{tag}.csv"
     pd.DataFrame({"y": preds}).to_csv(out, index=False)
     return cv_r2.mean(), cv_mse.mean()
 

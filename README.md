@@ -43,27 +43,33 @@ All plots are in `figures/`:
 
 ## Running the code
 
-Needs `numpy`, `pandas`, `scipy`, `scikit-learn` and `matplotlib`.
+Needs `numpy`, `pandas`, `scipy`, `scikit-learn` and `matplotlib`. Run these from the repo root:
 
 ```bash
 # final predictions
-python3 train_predict.py
+python3 code/train_predict.py
 
 # diagnostic plots
-python3 generate_plots.py
+python3 code/generate_plots.py
 
 # individual experiment stages
-python3 model1_baseline.py
-python3 model2_ols_sweep.py
-python3 model3_regularized.py
-python3 model4_overfit.py
-
-# build the PDF report
-python3 build_pdf.py
+python3 code/model1_baseline.py
+python3 code/model2_ols_sweep.py
+python3 code/model3_regularized.py
+python3 code/model4_overfit.py
 ```
 
-## Files
+## Folder layout
 
-- `BT2024201_pred_var1.csv`, `BT2024201_pred_var2.csv`: final predictions (1000 rows each, `y` column, no index)
-- `BT2024201_Report.pdf`: the submission report
-- `BT2024201_train_*.csv`, `BT2024201_test_*.csv`: the provided data
+```
+.
+├── code/                  # all the Python scripts
+├── data/
+│   ├── BT2024201_train_*.csv, BT2024201_test_*.csv   # the provided data
+│   └── predictions/       # BT2024201_pred_var1.csv, BT2024201_pred_var2.csv
+├── figures/               # diagnostic plots
+├── BT2024201_Report.pdf   # the submission report
+└── README.md
+```
+
+The prediction files have 1000 rows each, a single `y` column and no index.

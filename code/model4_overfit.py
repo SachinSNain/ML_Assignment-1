@@ -6,11 +6,13 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score, KFold
 
 ROLL = "BT2024201"
-DATA_DIR = "." if os.path.exists(f"{ROLL}_train_var1.csv") else f"./{ROLL}"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE, "data")
+PRED_DIR = os.path.join(DATA_DIR, "predictions")
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
 def run(problem, features, degree, tag):
-    print(f"\n--- Model 1: {problem.upper()} (deg={degree}, OLS) ---")
+    print(f"\n--- Model 4: {problem.upper()} (deg={degree}, unregularized OLS) ---")
     train = pd.read_csv(f"{DATA_DIR}/{ROLL}_train_{problem}.csv")
     test = pd.read_csv(f"{DATA_DIR}/{ROLL}_test_{problem}.csv")
     X_tr = train[features].values
@@ -28,18 +30,17 @@ def run(problem, features, degree, tag):
     mdl.fit(Xp_tr, y_tr)
     y_hat = mdl.predict(Xp_tr)
 
-    print(f"Features: {features}")
     print(f"Poly terms: {Xp_tr.shape[1]}")
     print(f"CV R2: {cv_r2.mean():.4f} +/- {cv_r2.std():.4f}")
     print(f"CV MSE: {cv_mse.mean():.4f} +/- {cv_mse.std():.4f}")
     print(f"Train R2: {r2_score(y_tr, y_hat):.4f}")
-    print(f"Train MSE: {mean_squared_error(y_tr, y_hat):.4f}")
+    print(f"Train MSE: {mean_squared_error(y_tr, y_hat):.6f}")
 
     preds = mdl.predict(Xp_te)
-    out = f"{DATA_DIR}/{ROLL}_pred_{problem}_{tag}.csv"
+    out = f"{PRED_DIR}/{ROLL}_pred_{problem}_{tag}.csv"
     pd.DataFrame({"y": preds}).to_csv(out, index=False)
     return cv_r2.mean(), cv_mse.mean()
 
 if __name__ == "__main__":
-    run("var1", ["x1", "x2", "x3"], 3, "m1")
-    run("var2", ["x1"], 4, "m1")
+    run("var1", ["x1", "x2", "x3", "x4", "x5", "x6"], degree=8, tag="m4")
+    run("var2", ["x1", "x2", "x3"], degree=15, tag="m4")
